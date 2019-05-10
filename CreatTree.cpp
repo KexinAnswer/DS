@@ -2,6 +2,7 @@
 #include <malloc.h>
 #include <iostream>
 #include <queue>
+#include <stack.h>
 
 
 typedef struct TreeNode{
@@ -238,7 +239,52 @@ bool IsComplateBinaryTree(TreeNode * root)
   return true;
 }
 
+void PreorderTraversalNor(TreeNode *root)
+{
+    TreeNode *cur = root; 
+    TreeNode *top;  
+    TreeNode *last = NULL;
 
+          
+    std::stack<TreeNode *>  st;
+
+    while (!st.empty() || cur != NULL) {
+    while (cur != NULL) {
+                
+    printf("%c ", cur->val);
+    st.push(cur);
+    cur = cur->left;
+                                    
+            }
+
+                top = st.top(); 
+                    st.pop();
+
+                    if (top->right == NULL) {
+                          
+                            cur = top->right;
+                                  st.pop();
+                                        last = top;
+                                            
+                    }
+                    else {
+                      if (top->right != last) {
+                                
+                                cur = top->right;
+                                      
+                      }
+                      else {
+                                
+                                st.pop();
+                                        last = top;
+                                              
+                      }
+                          
+                    }
+                      
+          }
+
+}
 
 
 
