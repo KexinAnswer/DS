@@ -2,7 +2,7 @@
 #include <malloc.h>
 #include <iostream>
 #include <queue>
-#include <stack.h>
+#include <stack>
 
 
 typedef struct TreeNode{
@@ -239,63 +239,199 @@ bool IsComplateBinaryTree(TreeNode * root)
   return true;
 }
 
-void PreorderTraversalNor(TreeNode *root)
+void PerorderTraversalNor(TreeNode * root)
 {
-    TreeNode *cur = root; 
-    TreeNode *top;  
-    TreeNode *last = NULL;
+  TreeNode* cur = root;
+  TreeNode* top;
+  TreeNode* last = NULL;
 
-          
-    std::stack<TreeNode *>  st;
 
-    while (!st.empty() || cur != NULL) {
-    while (cur != NULL) {
-                
-    printf("%c ", cur->val);
-    st.push(cur);
-    cur = cur->left;
-                                    
-            }
+  //创建栈，存放二叉树节点
+  std::stack<TreeNode*> st;
 
-                top = st.top(); 
-                    st.pop();
+  //当栈不为空或者cur部位空时，循环不结束
+  while(!st.empty() || cur != NULL)
+  {
+    //当cur部位NULL时，打印左子树并向左子树延申，并且压入栈
+    while(cur != NULL)
+    {
+      printf("%c ", cur->val);
+      st.push(cur);
+      cur = cur->left;
+    }
+    
+    // 记录栈顶元素
+    top = st.top();
 
-                    if (top->right == NULL) {
-                          
-                            cur = top->right;
-                                  st.pop();
-                                        last = top;
-                                            
-                    }
-                    else {
-                      if (top->right != last) {
-                                
-                                cur = top->right;
-                                      
-                      }
-                      else {
-                                
-                                st.pop();
-                                        last = top;
-                                              
-                      }
-                          
-                    }
-                      
-          }
+    if(top->right == NULL)
+    {
+      cur = top->right;
+      st.pop();
+      last = top;
+    }
+    else{
+      if(top->right != last)
+      {
+        cur = top->right;
+      }
+      else{
+        st.pop();
+        last = top;
+      }
+    }
 
+  }
+}
+
+void ProrderTraversalNor2(TreeNode * root)
+{
+  if(root == NULL)
+  {
+    return;
+  }
+  
+  //遍历节点的指针
+  TreeNode* cur = root;
+  //记录栈顶元素的指针
+  TreeNode* top;
+  std::stack<TreeNode*> st;
+
+  while(!st.empty() || cur != NULL)
+  {
+
+    //优先遍历二叉树的左子树
+    while(cur != NULL)
+    {
+      printf("%c ", cur->val);
+      st.push(cur);
+      cur = cur->left;
+    }
+
+    //当左子树打印完毕，向上寻找上一个节点的右子树进行遍历
+    top = st.top();
+    st.pop();
+    cur = top->right;
+  }
+}
+
+void InorderTraversalNor(TreeNode * root)
+{
+  if(root == NULL){
+    return;
+  }
+
+  TreeNode* cur = root;
+  TreeNode* top;
+  TreeNode* last = NULL;
+
+  std::stack<TreeNode*> st;
+
+  while(!st.empty() || cur != NULL)
+  {
+    while(cur != NULL)
+    {
+      st.push(cur);
+      cur = cur->left;
+    }
+    top = st.top();
+
+    if(top->right == NULL)
+    {
+      printf("%c ",top->val);
+      cur = top->right;
+      st.pop();
+      last = top;
+    }
+    else
+    {
+      if(top->right != last)
+      {
+
+        printf("%c ", top->val);
+        cur = top->right;
+
+      }
+      else
+      {
+        st.pop();
+        last = top;
+      }
+    }
+  }
 }
 
 
+void InorderTraversalNor2(TreeNode * root)
+{
+  //遍历二叉树的指针
+  TreeNode* cur = root;
+  //记录栈顶元素的指针
+  TreeNode* top;
+
+  std::stack<TreeNode*> st;
+
+  while(!st.empty() || cur != NULL)
+  {
+    
+    while(cur != NULL)
+    {
+      st.push(cur);
+      cur = cur->left;
+    }
+    top = st.top();
+    printf("%c ", top->val);
+    cur = top->right;
+    st.pop();
+
+  }
+}
 
 
+void PosterorderTraversalNor(TreeNode * root)
+{
+  if(root == NULL)
+  {
+    return;
+  }
 
+  TreeNode* cur = root;
+  TreeNode* top;
+  TreeNode* last = NULL;
 
+  std::stack<TreeNode*> st;
 
+  while(!st.empty() || cur != NULL)
+  {
+    while(cur != NULL)
+    {
+      st.push(cur);
+      cur = cur->left;
 
+    }
+     top = st.top();
 
-
-
+     if(top->right == NULL)
+     {
+       printf("%c ", top->val);
+       cur = top->right;
+       st.pop();
+       last = top;
+     }
+     else
+     {
+       if(top != last)
+       {
+         cur = top->right;
+       }
+       else
+       {
+         printf("%c ",top->val);
+         st.pop();
+         last = top;
+       }
+     }
+  }
+}
 
 
 
